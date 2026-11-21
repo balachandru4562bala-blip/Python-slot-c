@@ -1,0 +1,7 @@
+=== PARTICIPANT LIST: MUSIC ===
+Total Participants: 2
+
+Name                      | Reg No       | Department   | Email                         
+-------------------------------------------------------------------------------------
+Farhan Akhtar             | 192311006    | EC           | farhan@college.edu            
+Jeevan S                  | 192311010    | EE           | jeevan@college.edu            

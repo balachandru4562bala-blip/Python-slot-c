@@ -1,0 +1,9 @@
+# Assignment 3: Python Data Structures
+# Standard Library dependencies only:
+# - random (dataset generation)
+# - time (perf_counter benchmarking)
+# - collections (deque, Counter)
+# - sys (getsizeof memory profiling)
+# - copy (copy, deepcopy)
+
+# No external third-party packages required for Assignment 3.

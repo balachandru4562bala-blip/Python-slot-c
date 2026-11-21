@@ -1,0 +1,7 @@
+=== PARTICIPANT LIST: GAMING ===
+Total Participants: 2
+
+Name                      | Reg No       | Department   | Email                         
+-------------------------------------------------------------------------------------
+Deepak Kumar              | 192311004    | CS           | deepak.k@gmail.com            
+Hari Prasad               | 192311008    | ME           | hari.p@college.edu            

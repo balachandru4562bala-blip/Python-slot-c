@@ -1,0 +1,6 @@
+=== PARTICIPANT LIST: ROBOTICS ===
+Total Participants: 1
+
+Name                      | Reg No       | Department   | Email                         
+-------------------------------------------------------------------------------------
+Hari Prasad               | 192311008    | ME           | hari.p@college.edu            

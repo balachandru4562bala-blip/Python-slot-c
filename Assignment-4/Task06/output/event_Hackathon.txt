@@ -1,0 +1,6 @@
+=== PARTICIPANT LIST: HACKATHON ===
+Total Participants: 1
+
+Name                      | Reg No       | Department   | Email                         
+-------------------------------------------------------------------------------------
+Bhavana Reddy             | 192311002    | CS           | bhavana@college.edu           

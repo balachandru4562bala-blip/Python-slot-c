@@ -1,0 +1,5 @@
+[CS.txt:Line 3] Expected 5 comma-separated fields, found 3 | Raw: '192311003,Damaged Line Only Three Fields,CS'
+[EC.txt:Line 1] Duplicate registration for 192311001 | Raw: '192311001,Aarav Sharma,EC,aarav@college.edu,Robotics'
+[EC.txt:Line 2] Invalid email 'invalid_email_no_at.com': Email must contain exactly one '@' | Raw: '192311005,Esha Patel,EC,invalid_email_no_at.com,Robotics;Quiz'
+[EE.txt:Line 1] Invalid email 'ishwarya @college.edu': Email contains whitespace | Raw: '192311009,Ishwarya M,EE,ishwarya @college.edu,Coding'
+[BT.txt:Line 0] Department registration file missing: 'C:\Users\balac\OneDrive\Documents\PYTHON\Assignments\Python-Programming-Assignments\Assignment-4\Task06\data\BT.txt' | Raw: ''

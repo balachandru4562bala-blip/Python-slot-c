@@ -1,0 +1,16 @@
+# Assignment 5: Data Analysis, Visualisation and AI Applications
+# External Dependencies:
+pandas>=2.0.0
+matplotlib>=3.7.0
+
+# Standard Library Modules:
+# - csv
+# - sqlite3
+# - io
+# - time
+# - random
+# - os
+# - sys
+# - cProfile
+# - pstats
+# - collections (Counter)

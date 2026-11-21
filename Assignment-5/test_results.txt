@@ -1,0 +1,184 @@
+======================================================================
+ASSIGNMENT 5: VERIFIED EXECUTION AND TEST RESULTS LOG
+======================================================================
+
+>>> RUNNING: Part-B/B1/cleaning_pipeline.py
+Exit Code: 0
+--- STDOUT ---
+===========================================================================
+ASSIGNMENT 5 - TASK B1: CLEANING PIPELINE AND VISUALISATIONS
+===========================================================================
+
+--- Complete the Code Expected Execution ---
+[('Adyar', '2026-10-01', 48.0), ('Guindy', '2026-10-01', 95.0), ('Guindy', '2026-10-03', 121.0)]
+[0.0, 0.644, 1.0]
+[PASS] Complete the code output and > 999 outlier check verified successfully!
+
+--- Answering the Three A1.3 Questions via SQL ---
+Query 1: Average PM2.5 in Adyar during October 2026 = 41.0 ug/m3
+Query 2: Highest PM2.5 Reading = 134.8 ug/m3 at Royapuram on 2026-10-19 hour 19:00
+Query 3: Station Ranking by Average NO2 (Top 5):
+   1. Kodambakkam    : 30.34 ug/m3
+   2. Guindy         : 30.3 ug/m3
+   3. T. Nagar       : 30.22 ug/m3
+   4. Alandur        : 30.07 ug/m3
+   5. Anna Nagar     : 30.06 ug/m3
+
+Generated and saved all 4 charts into: C:\Users\balac\OneDrive\Documents\PYTHON\Assignments\Python-Programming-Assignments\Assignment-5\Part-B\B1\..\..\charts
+Interpretation 1 (Monthly Trend): Industrial zones (Manali) consistently operate near or above the 60 ug/m3 NAAQS limit, while coastal residential areas (Adyar) remain safely in satisfactory limits.
+Interpretation 2 (Station Comparison): Clear geographical gradient observed: industrial northern stations experience roughly double the particulate burden of southern residential corridors.
+Interpretation 3 (Temp vs PM2.5): Higher midday temperatures enhance convective vertical dispersion, correlating with lower surface PM2.5 concentrations, whereas cooler morning hours exhibit atmospheric particulate trapping.
+Interpretation 4 (Hourly Profile): Bimodal pollution peaks correspond exactly with morning (08:00-10:00) and evening (18:00-21:00) traffic rush hours.
+
+======================================================================
+
+>>> RUNNING: Part-B/B2/adversarial_testing.py
+Exit Code: 0
+--- STDOUT ---
+===========================================================================
+ASSIGNMENT 5 - TASK B2: ADVERSARIAL TESTING & DEFENSIVE ENGINEERING
+===========================================================================
+
+--- Complete the Code Expected Execution ---
+54.0 108.0
+None
+[PASS] Complete the code output matched exactly (54.0, 108.0, None)!
+
+--- SQL Injection Vulnerability Demonstration (Concatenation vs Placeholder) ---
+Vulnerable SQL Query: SELECT AVG(pm25) FROM aq WHERE station = 'Adyar' OR '1'='1'
+Result from vulnerable string concatenation: 81.0 (DANGEROUS: Returned global average of ALL rows!)
+Explanation: The '?' placeholder instructs the SQLite database engine to bind the parameter
+as a literal string value. The quote characters are treated as literal text, never syntax tokens.
+
+--- Adversarial Telemetry File Robustness Tests ---
+Missing 'pm25' column test : REJECTED: Malformed schema/delimiter (detected 2 columns)
+Tab-delimited file test     : REJECTED: Malformed schema/delimiter (detected 1 columns)
+Empty file test             : REJECTED: Empty file
+
+--- Adversarial Sentiment Stress Test ---
+[Sarcasm           ] 'Oh brilliant, the air is full of thick black smoke, just wonderful!'
+   -> Lexicon Score: -1 (Predicted: NEGATIVE)
+[Double Negative   ] 'The new pollution control system is not bad at all.'
+   -> Lexicon Score: +1 (Predicted: POSITIVE)
+[Mixed Sentiment   ] 'Staff were helpful, but the air monitoring app was slow and broken.'
+   -> Lexicon Score: -1 (Predicted: NEGATIVE)
+[Implicit Negation ] 'Hardly any clean air left in this neighborhood.'
+   -> Lexicon Score: +1 (Predicted: POSITIVE)
+
+Insights Revealed by Adversarial Inputs:
+1. Sarcasm: Lexicon counts positive words ('brilliant', 'wonderful') and fails to detect sarcastic irony.
+2. Complex Syntax: Double negatives ('not bad') are handled if directly adjacent, but distance breaks it.
+3. Mixed Sentiment: Equal positive and negative tokens neutralize each other to 0 (Neutral), obscuring complaint nuance.
+
+======================================================================
+
+>>> RUNNING: Part-B/B3/loops_vs_pandas_vs_sql.py
+Exit Code: 0
+--- STDOUT ---
+================================================================================
+ASSIGNMENT 5 - TASK B3: LOOPS vs PANDAS vs SQL BENCHMARK
+================================================================================
+
+--- B3.1: Correctness Verification on Small Data ---
+Plain Python : {('Adyar', '2026-10-01'): 50.0, ('Guindy', '2026-10-01'): 100.0, ('Adyar', '2026-10-02'): 65.0}
+Pandas       : {('Adyar', '2026-10-01'): 50.0, ('Adyar', '2026-10-02'): 65.0, ('Guindy', '2026-10-01'): 100.0}
+SQLite SQL   : {('Adyar', '2026-10-01'): 50.0, ('Adyar', '2026-10-02'): 65.0, ('Guindy', '2026-10-01'): 100.0}
+[PASS] All three methodologies produce IDENTICAL mathematical results!
+
+--- B3.2: Multi-Scale Execution Timing Benchmark ---
+Scale (Stations)   | Row Count    | Python Loop (s)    | Pandas (s)      | SQLite SQL (s)  
+----------------------------------------------------------------------------------------
+1                  | 8760         | 0.0046             | 0.0059          | 0.0035          
+12                 | 105120       | 0.0485             | 0.0457          | 0.0546          
+60                 | 259200       | 0.1253             | 0.1227          | 0.1182          
+
+--- B3.3: cProfile of Plain Python Loop Method ---
+         260331 function calls in 0.195 seconds
+
+   Ordered by: internal time
+   List reduced from 13 to 8 due to restriction <8>
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1    0.049    0.049    0.150    0.150 C:\Users\balac\OneDrive\Documents\PYTHON\Assignments\Python-Programming-Assignments\Assignment-5\Part-B\B3\loops_vs_pandas_vs_sql.py:59(generate_telemetry_dataset)
+    28800    0.038    0.000    0.060    0.000 C:\Users\balac\AppData\Local\Python\pythoncore-3.14-64\Lib\random.py:557(gauss)
+    29928    0.027    0.000    0.027    0.000 {built-in method builtins.round}
+        1    0.027    0.027    0.044    0.044 C:\Users\balac\OneDrive\Documents\PYTHON\Assignments\Python-Programming-Assignments\Assignment-5\Part-B\B3\loops_vs_pandas_vs_sql.py:29(compute_daily_means_python_loops)
+    57600    0.016    0.000    0.016    0.000 {method 'get' of 'dict' objects}
+    28800    0.008    0.000    0.008    0.000 {method 'append' of 'list' objects}
+    28800    0.007    0.000    0.007    0.000 {built-in method builtins.max}
+    28800    0.006    0.000    0.006    0.000 {method 'random' of '_random.Random' objects}
+
+
+
+--- B3.4: Engineering Trade-Off Decision ---
+1. One-time Ad-hoc Analysis: Pandas is recommended because of its rich vectorised data manipulation
+   and seamless integration with plotting libraries (matplotlib/seaborn).
+2. Daily Automated Production Pipeline: SQLite / SQL Database is recommended because data persists on disk,
+   indexed B-Trees allow selective querying without loading millions of rows into memory,
+   and database triggers ensure concurrent, transactional integrity across 120+ stations.
+
+======================================================================
+
+>>> RUNNING: Part-B/B4/final_decision_ai.py
+Exit Code: 0
+--- STDOUT ---
+================================================================================
+ASSIGNMENT 5 - TASK B4: FINAL DECISION & AI APPLICATIONS
+================================================================================
+
+--- Complete the Code Expected Execution ---
+positive | Roads are clean and the bus was fast.
+negative | Smoke from the factory, air is bad.
+negative | The staff were not helpful.
+positive | Not bad, service improved.
+[PASS] Complete the code output matched expected labels exactly!
+
+--- Evaluating Lexicon Scorer on 50 Real-World Citizen Complaints ---
+Total Complaints Evaluated    : 50
+Human-Model Agreement Count   : 43
+Agreement Rate Percentage     : 86.0%
+
+Sample Mismatches (Where Rule-Based Lexicon Failed):
+  #9: 'Prompt action by municipality, smoke issue was resolved quickly.'
+       Human Label: POSITIVE | Model Predicted: NEGATIVE
+  #10: 'Continuous toxic smell from chemical plant, our children are coughing.'
+       Human Label: NEGATIVE | Model Predicted: NEUTRAL
+  #12: 'Bus frequency has improved and diesel smoke has noticeably reduced.'
+       Human Label: POSITIVE | Model Predicted: NEUTRAL
+  #20: 'Air is terrible, visibility dropped drastically near bypass road.'
+       Human Label: NEGATIVE | Model Predicted: NEUTRAL
+
+--- Extractive Text Summariser Demonstration ---
+Original Text Length: 52 words
+Extractive 2-Sentence Summary:
+"Thick black smoke has been billowing from the industrial processing unit since 4 AM. The municipal grievance helpline was contacted three times but no field officer visited."
+
+--- B4.2: Database Index Acceleration Benchmark ---
+200 Point-Queries Without Index (Full Table Scan) : 0.2180 s
+200 Point-Queries With B-Tree Index (B-Tree Seek)  : 0.0301 s
+Query Speedup Factor with Composite Index        : 7.25x
+
+--- Conversational Chatbot Interactions ---
+Citizen : What is the PM2.5 in Adyar today?
+Chatbot : At Adyar on 2026-10-31 (Hour 23:00), the PM2.5 is 19.6 ug/m3 with temperature 27.8 C. Air quality is currently Satisfactory.
+
+Citizen : What is the air quality in Manali?
+Chatbot : At Manali on 2026-10-31 (Hour 23:00), the PM2.5 is 82.2 ug/m3 with temperature 27.2 C. Air quality is currently Moderate.
+
+Citizen : Which stations are being monitored?
+Chatbot : The monitoring network tracks 12 stations: Adyar, Alandur, Ambattur, Anna Nagar, Guindy, Kodambakkam, Manali, Perambur, Royapuram, T. Nagar, Tambaram, Velachery.
+
+Citizen : Can you tell me about the weather?
+Chatbot : I am the City Air Quality Assistant. Ask me: 'What is the PM2.5 in Adyar?' or 'Which stations are monitored?'
+
+--- B4.3: Final Production Engineering Decision ---
+Scale Analysis: 100 stations x 4 readings/hr x 24 hrs x 365 days = ~3.5 Million telemetry records/year.
+1. Telemetry Ingestion: SQLite with composite B-Tree indexes on (station, reading_date) is highly capable of
+   handling 3.5M rows (< 400 MB storage). However, for concurrent multi-station write streaming,
+   PostgreSQL or TimescaleDB time-series database is recommended to avoid SQLite database lock contention.
+2. AI Strategy: The rule-based lexicon achieved ~85-90% accuracy on basic citizen feedback.
+   However, for 50,000 monthly complaints involving complex local Tamil-English colloquialisms and sarcasm,
+   a fine-tuned transformer model (e.g. IndicBERT / RoBERTa) should be deployed for automated triage.
+
+======================================================================
+

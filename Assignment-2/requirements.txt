@@ -1,0 +1,9 @@
+# Assignment 2: Python Control Flow and String Operations
+# Standard Library dependencies only:
+# - time (benchmarking)
+# - sys (recursion limit inspection)
+# - re (regular expressions comparison)
+# - io (StringIO mutable buffer)
+# - functools (lru_cache)
+
+# No external third-party packages required for Assignment 2.

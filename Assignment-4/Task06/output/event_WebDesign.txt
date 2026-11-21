@@ -1,0 +1,6 @@
+=== PARTICIPANT LIST: WEBDESIGN ===
+Total Participants: 1
+
+Name                      | Reg No       | Department   | Email                         
+-------------------------------------------------------------------------------------
+Aarav Sharma              | 192311001    | CS           | aarav@college.edu             

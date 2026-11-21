@@ -1,0 +1,10 @@
+# Assignment 1: Payment Calculator for a Village Milk Co-operative
+# Standard Library dependencies only:
+# - decimal (exact monetary arithmetic)
+# - sys (memory profiling)
+# - time (benchmarking)
+# - math (mathematical functions)
+# - json (configuration file parsing)
+# - os (file operations)
+
+# No external third-party packages required for Assignment 1.

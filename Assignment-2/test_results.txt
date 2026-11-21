@@ -1,0 +1,253 @@
+======================================================================
+ASSIGNMENT 2: VERIFIED EXECUTION AND TEST RESULTS LOG
+======================================================================
+
+>>> RUNNING: Q1/subsidy_eligibility.py
+Exit Code: 0
+--- STDOUT ---
+======================================================================
+ASSIGNMENT 2 - Q1: ELECTRICITY SUBSIDY BOUNDARY ANALYSIS
+======================================================================
+
+Household                    | Units  | Card   | Senior | Separate IFs                        | if-elif-else Decision    
+-------------------------------------------------------------------------------------------------------------------
+HH1 (Boundary 100)           | 100    | False  | False  | Full Subsidy (<= 100 units)         | Full Subsidy             
+HH2 (Boundary 101 with Card) | 101    | True   | False  | Partial Subsidy (101-200 units with Ration Card) | Partial Subsidy          
+HH3 (Boundary 101 no Card)   | 101    | False  | False  | None                                | No Subsidy (No Ration Card)
+HH4 (Interior 150 with Card) | 150    | True   | False  | Partial Subsidy (101-200 units with Ration Card) | Partial Subsidy          
+HH5 (Boundary 200 with Card) | 200    | True   | False  | Partial Subsidy (101-200 units with Ration Card) | Partial Subsidy          
+HH6 (Boundary 201 with Senior) | 201    | False  | True   | Senior Citizen Subsidy (> 200 units with Senior Member) | Senior Citizen Subsidy   
+HH7 (Boundary 201 no Senior) | 201    | True   | False  | No Subsidy                          | No Subsidy (> 200 units) 
+HH8 (Boundary 0 units)       | 0      | False  | False  | Full Subsidy (<= 100 units)         | Full Subsidy             
+
+[PASS] All 8 boundary households verified across all decision structures.
+
+--- Design Defense: Nested IF vs Combined Boolean ---
+Combined boolean (`if units <= 100: ... elif 101 <= units <= 200 and has_ration_card: ...`)
+clearly partitions the unit slabs first, preventing logical overlap and ensuring single decision delivery.
+
+======================================================================
+
+>>> RUNNING: Q2/otp_verification.py
+Exit Code: 0
+--- STDOUT ---
+======================================================================
+ASSIGNMENT 2 - Q2: OTP VERIFICATION & LOOP CONTROL FLOW
+======================================================================
+
+--- Scenario 1: Blanks + Success on 2nd Counted Attempt ---
+  Blank entry detected. Please type digits (Not counted as attempt).
+  Blank entry detected. Please type digits (Not counted as attempt).
+  Wrong OTP '1111'. Attempts remaining: 2
+  Blank entry detected. Please type digits (Not counted as attempt).
+  OTP verified successfully on attempt 2! Access granted.
+
+--- Scenario 2: 3 Incorrect Attempts -> Account Locked ---
+  Blank entry detected. Please type digits (Not counted as attempt).
+  Wrong OTP '1001'. Attempts remaining: 2
+  Wrong OTP '2002'. Attempts remaining: 1
+  Wrong OTP '3003'. Attempts remaining: 0
+  SECURITY ALERT: 3 incorrect attempts exceeded. Account LOCKED for 30 minutes.
+
+--- Scenario 3: Security Question Unlocks 2 Bonus Attempts ---
+  Incorrect OTP '1111'. Attempts: 1/3
+  Incorrect OTP '2222'. Attempts: 2/3
+  Incorrect OTP '3333'. Attempts: 3/3
+  3 failed attempts. Security challenge offered.
+  Security answer CORRECT! 2 extra attempts granted.
+  Incorrect OTP '9999'. Attempts: 4/5
+  Success on attempt 5! Access granted.
+
+--- Scenario 4: Recursive Verification ---
+  RECURSIVE: Blank ignored.
+  RECURSIVE: Failed attempt 1.
+  RECURSIVE: Verified on attempt 2! Access granted.
+
+[PASS] All loop variants, continue/break/else, and security extension verified.
+
+======================================================================
+
+>>> RUNNING: Q3/vehicle_validator.py
+Exit Code: 0
+--- STDOUT ---
+======================================================================
+ASSIGNMENT 2 - Q3: VEHICLE REGISTRATION VALIDATOR
+======================================================================
+
+--- Assignment Expected Execution ---
+tn 09 ab 1234   -> TN09AB1234  valid
+KA-01-M-0007    -> KA01M0007   valid
+TN9AB1234       -> TN9AB1234   INVALID
+TN 22 1234 AB   -> TN221234AB  INVALID
+
+--- Receipt Formatted Outputs ---
+tn 09 ab 1234    -> Normalised: TN09AB1234  | Valid: True  | Receipt: 'TN 09 AB 1234'
+KA-01-M-0007     -> Normalised: KA01M0007   | Valid: True  | Receipt: 'KA 01 M 0007'
+dl-01-c-9999     -> Normalised: DL01C9999   | Valid: True  | Receipt: 'DL 01 C 9999'
+mh 12 5555       -> Normalised: MH125555    | Valid: False | Receipt: 'INVALID'
+
+--- Conceptual Inquiry & Explanations ---
+1. String Immutability: In Python, `str` objects cannot be modified in-place.
+   Any operation like `replace()` or `upper()` constructs and returns a NEW string object in memory.
+2. Why `text.upper()` doesn't modify `text`: `text` continues pointing to the original memory buffer.
+3. Negative Slicing Behavior:
+   9-char  'KA01M0007':  s[-4:] = '0007' (last 4 digits), s[4:-4] = 'M' (1-letter series)
+   10-char 'TN09AB1234': s[-4:] = '1234' (last 4 digits), s[4:-4] = 'AB' (2-letter series)
+
+Time for 100000 validations:
+String slicing & methods : 0.0899 s
+Compiled Regular Expression: 0.0780 s
+Slicing is faster and teaches elementary indexing fundamentals without external libraries.
+
+======================================================================
+
+>>> RUNNING: Q4/string_concatenation_benchmark.py
+Exit Code: 0
+--- STDOUT ---
+======================================================================
+ASSIGNMENT 2 - Q4: STRING CONCATENATION (+ vs JOIN) BENCHMARK
+======================================================================
+
+--- Running 200,000 Items Test (3 Iterations for Average) ---
+same text: True | length: 3048890
+Trial 1: += time: 0.5465 s | join time: 0.0059 s
+Trial 2: += time: 0.4587 s | join time: 0.0065 s
+Trial 3: += time: 0.4350 s | join time: 0.0063 s
+
+Average 200,000 items: += time = 0.4801 s | join time = 0.0062 s
+str.join() speedup: 77.26x faster
+
+--- Comparative Multi-Scale Performance Table ---
+Data Size    | += Time (s)     | join() Time (s)  | StringIO Time (s)  | Speedup   
+---------------------------------------------------------------------------
+1000         | 0.000390        | 0.000020         | 0.000188           | 19.70x    
+10000        | 0.003518        | 0.000426         | 0.001947           | 8.26x     
+200000       | 0.444365        | 0.005652         | 0.031859           | 78.62x    
+
+--- Technical Explanation ---
+1. Why += can become O(n^2): Python strings are immutable.
+   In the naive model, `text += p` creates a new buffer and copies all previous characters.
+   Total characters copied = 1 + 2 + ... + n = O(n^2).
+2. CPython Optimization: When reference count of `text` is 1 and no other variable aliases it,
+   CPython's PyUnicode_Append reallocates the buffer in-place using amortized doubling, reducing += to O(n).
+3. Why join() is ALWAYS superior: `str.join()` calculates the exact final buffer length in ONE pass,
+   allocates memory ONCE, and performs memory-copy in C. It is guaranteed O(n) across all Python runtimes.
+
+======================================================================
+
+>>> RUNNING: Q5/canteen_order_scope.py
+Exit Code: 0
+--- STDOUT ---
+======================================================================
+ASSIGNMENT 2 - Q5: CANTEEN ORDERING, DEFAULT PARAMS & SCOPE
+======================================================================
+
+--- Complete the Code Expected Execution ---
+['Tea', 'Vada'] ['Tea', 'Vada']
+['Tea'] ['Vada']
+
+--- add_item_buggy.__defaults__ Inspection ---
+add_item_buggy.__defaults__ = (['Tea', 'Vada'],)
+Explanation: Default argument expressions are evaluated once when def executes.
+The single list object in __defaults__ is mutated across every invocation!
+
+--- Three Customers in Sequence (Fixed Design) ---
+Customer 1 Order: ['Tea', 'Vada']
+Customer 2 Order: ['Coffee', 'Samosa']
+Customer 3 Order: ['Idli']
+[PASS] Each customer order is completely independent!
+
+--- Multiple Parameters & Bill Calculation ---
+Customer 1 (10% student discount): Subtotal=Rs 22.00, GST=Rs 0.99, Net=Rs 20.79
+
+--- Scope Demonstrations ---
+Updated global DAILY_CANTEEN_SALES = Rs 20.79
+Customer 4 item 1: ['Tea']
+Customer 4 item 2: ['Tea', 'Vada']
+
+======================================================================
+
+>>> RUNNING: Q6/temple_steps_recursion.py
+Exit Code: 0
+--- STDOUT ---
+======================================================================
+ASSIGNMENT 2 - Q6: RECURSION, MEMOISATION & CALL STACK LIMITS
+======================================================================
+
+--- Complete the Code Expected Execution ---
+naive: 121393 calls = 242785
+memo : 121393 calls = 26
+
+--- Hand Trace Verification for n = 1 to 6 ---
+n = 1: expected = 1, actual = 1 -> PASS
+n = 2: expected = 2, actual = 2 -> PASS
+n = 3: expected = 3, actual = 3 -> PASS
+n = 4: expected = 5, actual = 5 -> PASS
+n = 5: expected = 8, actual = 8 -> PASS
+n = 6: expected = 13, actual = 13 -> PASS
+
+--- Call Tree Diagram for n = 5 ---
+
+    Call Tree for ways(5):
+                     w(5)
+              /               \
+            w(4)              w(3)
+           /    \            /    \
+        w(3)    w(2)       w(2)   w(1)
+       /   \    /   \     /   \
+     w(2) w(1) w(1) w(0) w(1) w(0)
+    /   \
+  w(1) w(0)
+    Notice: w(3) is evaluated 2 times; w(2) is evaluated 3 times; w(1) is evaluated 5 times!
+    
+
+--- Growth Investigation: Function Call Counts ---
+n      | Answer       | Naive Calls     | Memo Calls   | Calls Ratio (Naive/Memo) 
+---------------------------------------------------------------------------
+10     | 89           | 177             | 11           | 16.1x                    
+20     | 10946        | 21891           | 21           | 1042.4x                  
+25     | 121393       | 242785          | 26           | 9337.9x                  
+30     | 1346269      | 2692537         | 31           | 86856.0x                 
+
+--- Deployment Decision & Recursion Limit Investigation ---
+Current sys.getrecursionlimit() = 1000
+Caught expected RecursionError on ways_memo(1000): maximum recursion depth exceeded
+Reason: 1,000 recursive frames exceeded default Python stack limit.
+
+Iterative ways_iterative(1000) succeeded in 0.106 ms!
+Result has 209 digits (First 20 digits: 70330367711422815821...)
+
+--- Summary Complexity Comparison ---
+1. Plain Recursion  : Time O(phi^n) ~ O(1.618^n) [Exponential], Space O(n) Call Stack
+2. Memoised (Cache) : Time O(n) [Linear], Space O(n) Call Stack + O(n) Cache
+3. Iterative Loop   : Time O(n) [Linear], Space O(1) [Auxiliary Constant Space] -> BEST FOR PRODUCTION
+
+======================================================================
+
+>>> RUNNING: Q7/redesign_steps_challenge.py
+Exit Code: 1
+--- STDOUT ---
+===========================================================================
+ASSIGNMENT 2 - Q7: DAY-4 DESIGN CHALLENGE VALIDATION EXPERIMENT
+===========================================================================
+[PASS] Redesigned Iterative and Matrix algorithms produce identical exact answers.
+
+--- Comparative Benchmarking at Scale ---
+n Steps    | Iterative Time (s)   | Matrix Time (s)      | Digits in Result  
+---------------------------------------------------------------------------
+1000       | 0.000092             | 0.000040             | 209               
+5000       | 0.000904             | 0.000360             | 1045              
+10000      | 0.005469             | 0.000731             | 2090              
+
+--- STDERR ---
+Traceback (most recent call last):
+  File "C:\Users\balac\OneDrive\Documents\PYTHON\Assignments\Python-Programming-Assignments\Assignment-2\Q7\redesign_steps_challenge.py", line 89, in <module>
+    run_q7_validation()
+    ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\balac\OneDrive\Documents\PYTHON\Assignments\Python-Programming-Assignments\Assignment-2\Q7\redesign_steps_challenge.py", line 78, in run_q7_validation
+    digits = len(str(ans_iter))
+                 ~~~^^^^^^^^^^
+ValueError: Exceeds the limit (4300 digits) for integer string conversion; use sys.set_int_max_str_digits() to increase the limit
+
+======================================================================
+

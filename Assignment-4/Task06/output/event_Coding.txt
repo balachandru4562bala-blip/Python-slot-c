@@ -1,0 +1,8 @@
+=== PARTICIPANT LIST: CODING ===
+Total Participants: 3
+
+Name                      | Reg No       | Department   | Email                         
+-------------------------------------------------------------------------------------
+Aarav Sharma              | 192311001    | CS           | aarav@college.edu             
+Deepak Kumar              | 192311004    | CS           | deepak.k@gmail.com            
+Jeevan S                  | 192311010    | EE           | jeevan@college.edu            

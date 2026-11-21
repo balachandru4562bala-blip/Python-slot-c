@@ -1,0 +1,7 @@
+=== PARTICIPANT LIST: QUIZ ===
+Total Participants: 2
+
+Name                      | Reg No       | Department   | Email                         
+-------------------------------------------------------------------------------------
+Bhavana Reddy             | 192311002    | CS           | bhavana@college.edu           
+Gowtham Raj               | 192311007    | ME           | gowtham@college.edu           

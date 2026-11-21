@@ -1,0 +1,19 @@
+=====================================================
+COLLEGE CULTURAL FEST: REGISTRATION DESK SUMMARY
+=====================================================
+
+Total Raw Lines Processed : 11
+Valid Registrations Accepted: 7
+Duplicate Registrations   : 1
+Total Rejected/Bad Lines  : 4
+
+--- Event-Wise Enrollment Counts ---
+  Coding              :   3 students
+  Quiz                :   2 students
+  Gaming              :   2 students
+  Music               :   2 students
+  WebDesign           :   1 students
+  Hackathon           :   1 students
+  Drama               :   1 students
+  CADModeling         :   1 students
+  Robotics            :   1 students

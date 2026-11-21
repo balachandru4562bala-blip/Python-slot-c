@@ -1,0 +1,4 @@
+192311001,Aarav Sharma,CS,aarav@college.edu,Coding;WebDesign
+192311002,Bhavana Reddy,CS,bhavana@college.edu,Hackathon;Quiz
+192311003,Damaged Line Only Three Fields,CS
+192311004,Deepak Kumar,CS,deepak.k@gmail.com,Gaming;Coding

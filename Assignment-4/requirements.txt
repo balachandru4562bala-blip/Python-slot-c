@@ -1,0 +1,11 @@
+# Assignment 4: File Handling, Exceptions, Modules and Packages
+# Standard Library dependencies only:
+# - os (path manipulations, file checks)
+# - sys (module path injection)
+# - csv (DictReader, DictWriter)
+# - tempfile (NamedTemporaryFile)
+# - collections (defaultdict)
+# - decimal (precise financial parsing)
+# - subprocess (multiprocess execution)
+
+# No external third-party packages required for Assignment 4.

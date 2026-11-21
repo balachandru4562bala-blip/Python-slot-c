@@ -1,0 +1,6 @@
+=== PARTICIPANT LIST: CADMODELING ===
+Total Participants: 1
+
+Name                      | Reg No       | Department   | Email                         
+-------------------------------------------------------------------------------------
+Gowtham Raj               | 192311007    | ME           | gowtham@college.edu           

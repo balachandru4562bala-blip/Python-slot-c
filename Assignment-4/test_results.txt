@@ -1,0 +1,252 @@
+======================================================================
+ASSIGNMENT 4: VERIFIED EXECUTION AND TEST RESULTS LOG
+======================================================================
+
+>>> RUNNING: Task01/mess_bills_diagnostic.py
+Exit Code: 0
+--- STDOUT ---
+===========================================================================
+ASSIGNMENT 4 - TASK 01: MESS BILLS FILE PROCESSING REVIEW
+===========================================================================
+--- Running Defective Script Simulation ---
+Defective Report:
+Aravind 2500
+Fahad 2300
+
+Defective Total: 4800
+
+--- Running Repaired Script ---
+Repaired Clean Report:
+Aravind         Rs  2500.00
+Bhavana         Rs  2450.50
+Divya           Rs  2600.75
+Fahad           Rs  2300.00
+
+Repaired Total: Rs 9851.25
+
+Audit Trail of Rejected Lines:
+  Line 3: '192311003,Chandran,invalid_amount' -> Reason: Non-numeric amount 'invalid_amount'
+  Line 5: '192311005,Eshwar' -> Reason: Expected 3 fields, found 2
+
+--- Task 1.1: Diagnostic Analysis ---
+1. Hard-coded absolute path: Script fails on any machine other than original author's PC.
+2. Unclosed file handle: If an error occurs, the file descriptor remains open in the OS table.
+3. Memory exhaustion: f.read() loads the entire file into RAM at once, crashing on large files.
+4. Bare except: pass: Masks critical syntax and logic bugs and silently drops valid students with decimal amounts.
+5. int() on currency: Hostel mess bills frequently include paise (e.g. 2450.50). int('2450.50') raises ValueError, silently dropping student Bhavana!
+6. Repeated string concatenation (+): Incurs O(n^2) character copying overhead.
+7. No audit log: Rejected student bills vanish with zero administrative traceability.
+
+Design Defense (Task 1.3):
+For a 50,000-line file (~3 MB to 50 MB), the repaired version consumes strictly O(1) memory by streaming lines through a generator buffer rather than buffering millions of characters. Context managers ensure deterministic file handle release even upon catastrophic I/O aborts. Specific exceptions capture malformed records into an administrative audit log, guaranteeing zero financial data loss and paisa-accurate ledger balancing.
+
+======================================================================
+
+>>> RUNNING: Task02/attendance_design.py
+Exit Code: 0
+--- STDOUT ---
+===========================================================================
+ASSIGNMENT 4 - TASK 02: BIOMETRIC ATTENDANCE PROCESSING PROTOTYPE
+===========================================================================
+
+--- Summary Report Output ---
+{'RegisterNo': '192311001', 'Present': 2, 'Absent': 0, 'TotalDays': 2, 'Percentage': '100.00%'}
+{'RegisterNo': '192311002', 'Present': 1, 'Absent': 1, 'TotalDays': 2, 'Percentage': '50.00%'}
+{'RegisterNo': '192311004', 'Present': 0, 'Absent': 1, 'TotalDays': 1, 'Percentage': '0.00%'}
+
+--- Defaulters Report (< 75%) ---
+{'RegisterNo': '192311002', 'AttendancePercentage': '50.00%', 'Status': 'Exam Hall Ticket Withheld (< 75%)'}
+{'RegisterNo': '192311004', 'AttendancePercentage': '0.00%', 'Status': 'Exam Hall Ticket Withheld (< 75%)'}
+
+--- Damaged Records Log Content ---
+[day1.txt:3] Damaged line (expected 3 fields): '192311003,2026-10-01'
+[day1.txt:4] Invalid status 'L' in line: '192311004,2026-10-01,L'
+
+[PASS] Task 02 end-to-end file pipeline executed successfully.
+
+======================================================================
+
+>>> RUNNING: Task03/attendance_exceptions.py
+Exit Code: 0
+--- STDOUT ---
+===========================================================================
+ASSIGNMENT 4 - TASK 03: ERROR HANDLING & EXCEPTIONS
+===========================================================================
+
+--- Complete the Code Expected Execution ---
+(1, 1, [(3, 'expected 3 fields, found 2'), (4, "invalid status 'L'")])
+
+--- Non-Existent File Handling ---
+summarise('non_existent_file_xyz.csv') -> (0, 0, [(0, 'File not found: non_existent_file_xyz.csv')])
+
+--- Task 3.1: Exception Failure Taxonomy ---
+Failure Scenario          | Built-in/Custom Exception    | Mitigation Strategy           
+----------------------------------------------------------------------------------------
+Missing directory/file    | FileNotFoundError            | Verify path, log missing date, alert admin
+Locked/Read-only file     | PermissionError              | Request OS elevation, log security block
+Corrupted encoding/binary | UnicodeDecodeError           | Fallback to utf-8-sig or latin-1, log error
+Missing fields in line    | InvalidRecord (Custom)       | Log line number and raw text to error log
+Invalid status letter     | InvalidRecord (Custom)       | Discard line, log invalid code
+
+--- Complete try-except-else-finally Demonstration ---
+1. [try]: Attempting to open file...
+2. [except FileNotFoundError]: File missing! Raising custom error...
+4. [finally]: Always executed! Ensuring clean-up...
+Caught top-level exception: Attendance data unavailable
+
+--- Task 3.4: Misuse Experiment (except Exception: pass) ---
+Result with 'except Exception: pass' -> present_count = 0
+FATAL DEFECT: The typo NameError was silently swallowed, leaving the count as 0!
+The administrator would believe zero students attended when in fact the program had a bug.
+
+======================================================================
+
+>>> RUNNING: Task04/file_forensics.py
+Exit Code: 0
+--- STDOUT ---
+===========================================================================
+ASSIGNMENT 4 - TASK 04: FILE AND EXCEPTION FORENSICS
+===========================================================================
+
+--- Running Defective Process across 3 Days ---
+Defective returns.log Content:
+'Database SystemsCompiler Design'
+Database SystemsCompiler Design
+Forensic Findings:
+1. Days 1 and 2 books ('Python Programming', 'Operating Systems', etc.) are COMPLETELY GONE!
+2. Day 3 books are merged together without spacing: 'Database SystemsCompiler Design'
+
+--- Running Repaired Process across 3 Days (including missing day) ---
+Repaired returns.log Content:
+Python Programming
+Data Structures
+Operating Systems
+Computer Networks
+Database Systems
+Compiler Design
+
+Repaired error.log Content:
+ERROR: Missing daily file 'C:\Users\balac\OneDrive\Documents\PYTHON\Assignments\Python-Programming-Assignments\Assignment-4\Task04\day_missing.txt': [Errno 2] No such file or directory: 'C:\\Users\\balac\\OneDrive\\Documents\\PYTHON\\Assignments\\Python-Programming-Assignments\\Assignment-4\\Task04\\day_missing.txt'
+
+--- Task 4.4: Rules to Prevent Recurrence ---
+Rule 1: ALWAYS access files using the `with` statement context manager to guarantee deterministic closure.
+Rule 2: For cumulative logs or ledgers, ALWAYS open in append mode ('a') with explicit newline delimiters ('\n').
+
+======================================================================
+
+>>> RUNNING: Task05/run_four_organisations.py
+Exit Code: 0
+--- STDOUT ---
+===========================================================================
+ASSIGNMENT 4 - TASK 05: CODE ORGANISATION ARCHITECTURAL REVIEW
+===========================================================================
+
+>>> Running: Organisation A (Monolith) <<<
+
+
+>>> Running: Organisation B (Single Module) <<<
+--- Attendance Report (Organisation B) ---
+192311001: 100.0% (ELIGIBLE)
+192311002: 0.0% (SHORTAGE (< 75%))
+192311004: 0.0% (SHORTAGE (< 75%))
+
+>>> Running: Organisation C (Three Modules) <<<
+--- Attendance Report (Organisation C - 3 Modules) ---
+192311001: 100.0% (ELIGIBLE)
+192311002: 0.0% (SHORTAGE (< 75%))
+192311004: 0.0% (SHORTAGE (< 75%))
+
+>>> Running: Organisation D (Package) <<<
+--- Attendance Report (Organisation D - Package) ---
+192311001: 100.0% (ELIGIBLE)
+192311002: 0.0% (SHORTAGE (< 75%))
+192311004: 0.0% (SHORTAGE (< 75%))
+
+--- Task 5.2: Requirement Change Impact Analysis ---
+Requirement: Add a new report identifying students absent for 3 consecutive days.
+Organisation Structure           | Files Changed   | Modified Files                
+--------------------------------------------------------------------------------
+A. Monolith Script               | 1 file          | attendance_monolith.py
+B. Single Module                 | 2 files         | attendance_lib.py, main_b.py
+C. Three Decoupled Modules       | 2 files         | stats.py, report.py (reader untouched!)
+D. Structured Package            | 2 files         | stats.py, report.py (clean API barrier)
+
+--- Task 5.3: Architectural Trade-Off Comparison Matrix ---
+Criterion       | A. Monolith            | B. Single Mod        | C. 3 Modules         | D. Package          
+---------------------------------------------------------------------------------------------------------
+Readability     | High for small scripts, poor at scale | Moderate             | High (Clean separation) | Highest (Standardized namespace)
+Reusability     | Zero (Code copy required) | High for whole utility | High (Can reuse only reader.py) | Maximum (Distributable wheel/egg)
+Unit Testing    | Difficult (Tightly coupled) | Moderate             | Easy (Can mock reader for stats) | Trivial (Isolated submodule tests)
+Namespace Safety | Polluted global scope  | Module scope barrier | Clean decoupled namespaces | Hierarchical dot-notation isolation
+
+--- Import Semantics Explained ---
+1. `import attendance.stats`:
+   Loads submodule 'stats' inside 'attendance' package into sys.modules.
+   Must be called via full qualified name: `attendance.stats.calculate_stats()`.
+2. `from attendance import stats`:
+   Binds the identifier `stats` into local namespace; called as `stats.calculate_stats()`.
+3. `from attendance.stats import percentage`:
+   Binds ONLY the specific function `percentage` directly into current namespace.
+
+======================================================================
+
+>>> RUNNING: Task06/run_fest_challenge.py
+Exit Code: 1
+--- STDOUT ---
+===========================================================================
+ASSIGNMENT 4 - TASK 06: COLLEGE FEST REGISTRATION DESK CHALLENGE
+===========================================================================
+Configured 5 Department Sources (including 1 missing file).
+
+Processing Complete with ZERO unhandled exceptions!
+Total Lines Processed : 11
+Clean Records Accepted: 7
+Duplicates Trapped    : 1
+Total Rejected/Bad    : 4
+
+--- Summary Report Content ---
+=====================================================
+COLLEGE CULTURAL FEST: REGISTRATION DESK SUMMARY
+=====================================================
+
+Total Raw Lines Processed : 11
+Valid Registrations Accepted: 7
+Duplicate Registrations   : 1
+Total Rejected/Bad Lines  : 4
+
+--- Event-Wise Enrollment Counts ---
+  Coding              :   3 students
+  Quiz                :   2 students
+  Gaming              :   2 students
+  Music               :   2 students
+  WebDesign           :   1 students
+  Hackathon           :   1 students
+  Drama               :   1 students
+  CADModeling         :   1 students
+  Robotics            :   1 students
+
+--- Error Log Content ---
+[CS.txt:Line 3] Expected 5 comma-separated fields, found 3 | Raw: '192311003,Damaged Line Only Three Fields,CS'
+[EC.txt:Line 1] Duplicate registration for 192311001 | Raw: '192311001,Aarav Sharma,EC,aarav@college.edu,Robotics'
+[EC.txt:Line 2] Invalid email 'invalid_email_no_at.com': Email must contain exactly one '@' | Raw: '192311005,Esha Patel,EC,invalid_email_no_at.com,Robotics;Quiz'
+[EE.txt:Line 1] Invalid email 'ishwarya @college.edu': Email contains whitespace | Raw: '192311009,Ishwarya M,EE,ishwarya @college.edu,Coding'
+[BT.txt:Line 0] Department registration file missing: 'C:\Users\balac\OneDrive\Documents\PYTHON\Assignments\Python-Programming-Assignments\Assignment-4\Task06\data\BT.txt' | Raw: ''
+
+Generated Artifacts:
+  Master CSV   : clean_master_list.csv
+  Event Lists  : 9 event files written
+  Summary File : summary_report.txt
+  Error Log    : error_log.txt
+
+--- STDERR ---
+Traceback (most recent call last):
+  File "C:\Users\balac\OneDrive\Documents\PYTHON\Assignments\Python-Programming-Assignments\Assignment-4\Task06\run_fest_challenge.py", line 107, in <module>
+    run_task06()
+    ~~~~~~~~~~^^
+  File "C:\Users\balac\OneDrive\Documents\PYTHON\Assignments\Python-Programming-Assignments\Assignment-4\Task06\run_fest_challenge.py", line 103, in run_task06
+    assert len(processor.master_records) == 6, f"Expected 6 valid records, got {len(processor.master_records)}"
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Expected 6 valid records, got 7
+
+======================================================================
+

@@ -1,0 +1,2 @@
+[day1.txt:3] Damaged line (expected 3 fields): '192311003,2026-10-01'
+[day1.txt:4] Invalid status 'L' in line: '192311004,2026-10-01,L'
